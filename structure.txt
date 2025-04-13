@@ -1,0 +1,35 @@
+voting_app/
+│   ├── components/
+│   │   ├── Layout.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── Footer.tsx
+│   ├── pages/              # Next.js page routes
+│            poll/              # Next.js page routes
+│               [id].tsx              # Next.js page routes
+│   │   └── index.tsx       # Homepage
+│   │   └── create-poll.tsx 
+│   │   └── _app.tsx       
+│   ├── styles/             # CSS/SCSS files
+│   │   └── globals.css   
+│   │   └── theme.ts      
+│   ├── public/             # Static assets (images, etc.)
+│   ├── utils/              # Helper functions (e.g., Solana wallet connections)
+│   └── package.json        # Frontend dependencies
+│
+├── program/                # Solana on-chain program (smart contract)
+│   ├── src/
+│   │   └── lib.rs          # Rust program logic
+│   └── Cargo.toml          # Rust dependencies and build config
+│
+├── tests/                  # End-to-end or unit tests
+│   └── basic.test.ts       # Example test using TypeScript
+│
+├── migrations/             # Deployment scripts (if using Anchor)
+│   └── deploy.ts           # Script to deploy the program
+│
+├── .gitignore
+├── package.json            # Root workspace dependencies
+├── tsconfig.json           # TypeScript config
+├── solana.config.json      # Solana CLI config (network, RPC, etc.)
+├── Anchor.toml             # Anchor framework config (program ID, cluster, etc.)
+└── README.md
