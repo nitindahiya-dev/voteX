@@ -1,35 +1,33 @@
 voting_app/
-│   ├── components/
-│   │   ├── Layout.tsx
-│   │   ├── Navbar.tsx
-│   │   ├── Footer.tsx
-│   ├── pages/              # Next.js page routes
-│            poll/              # Next.js page routes
-│               [id].tsx              # Next.js page routes
-│   │   └── index.tsx       # Homepage
-│   │   └── create-poll.tsx 
-│   │   └── _app.tsx       
-│   ├── styles/             # CSS/SCSS files
-│   │   └── globals.css   
-│   │   └── theme.ts      
-│   ├── public/             # Static assets (images, etc.)
-│   ├── utils/              # Helper functions (e.g., Solana wallet connections)
-│   └── package.json        # Frontend dependencies
-│
-├── program/                # Solana on-chain program (smart contract)
-│   ├── src/
-│   │   └── lib.rs          # Rust program logic
-│   └── Cargo.toml          # Rust dependencies and build config
-│
-├── tests/                  # End-to-end or unit tests
-│   └── basic.test.ts       # Example test using TypeScript
-│
-├── migrations/             # Deployment scripts (if using Anchor)
-│   └── deploy.ts           # Script to deploy the program
-│
+├── components/
+│   ├── DashboardLayout.tsx      // New dashboard layout component
+│   ├── Layout.tsx
+│   ├── Navbar.tsx
+│   ├── Footer.tsx
+│   └── WalletButton.tsx
+├── pages/
+│   ├── dashboard/
+│   │   ├── index.tsx            // Overview page
+│   │   ├── profile/
+│   │   │   └── index.tsx        // Profile page
+│   │   ├── my-polls/
+│   │   │   └── index.tsx        // My Polls page
+│   │   └── settings/
+│   │       └── index.tsx        // Settings page
+│   ├── index.tsx                // Homepage
+│   ├── create-poll.tsx
+│   └── _app.tsx
+├── styles/
+│   ├── globals.css
+│   └── theme.ts
+├── public/
+├── utils/
+├── program/
+├── tests/
+├── migrations/
 ├── .gitignore
-├── package.json            # Root workspace dependencies
-├── tsconfig.json           # TypeScript config
-├── solana.config.json      # Solana CLI config (network, RPC, etc.)
-├── Anchor.toml             # Anchor framework config (program ID, cluster, etc.)
+├── package.json
+├── tsconfig.json
+├── solana.config.json
+├── Anchor.toml
 └── README.md

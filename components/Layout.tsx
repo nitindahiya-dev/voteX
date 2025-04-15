@@ -4,9 +4,9 @@ import {Footer} from './Footer';
 const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
-    <div className="flex flex-col min-h-screen bg-black">
+    <div className="flex flex-col min-h-screen bg-black overflow-x-hidden">
       <Navbar />
-      <main className="flex-grow md:max-w-[100vw] mx-auto">{children}</main>
+      <main className="">{children}</main>
      
      
       <Footer />
