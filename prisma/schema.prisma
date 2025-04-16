@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -12,10 +10,36 @@ generator client {
 model User {
   id            Int      @id @default(autoincrement())
   walletAddress String   @unique
-  // Set the username equal to the wallet public key on creation.
   name          String
-  // Store the last login time.
   lastLogin     DateTime?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  polls         Poll[]   // Relation to polls created by user
+  votes         Vote[]   // Relation to votes by user
+}
+
+model Poll {
+  id           Int      @id @default(autoincrement())
+  title        String
+  type         String
+  status       String   @default("Active")
+  votes        Int      @default(0) // Total number of votes
+  options      Json     // Store poll options as JSON
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  endsAt       DateTime?
+  userId       Int
+  user         User     @relation(fields: [userId], references: [id])
+  voteRecords  Vote[]   // Relation to votes for the poll
+}
+
+model Vote {
+  id             Int      @id @default(autoincrement())
+  pollId         Int
+  userId         Int
+  option         String
+  createdAt      DateTime @default(now())
+  transactionHash String?  @unique // Solana transaction hash
+  poll           Poll     @relation(fields: [pollId], references: [id])
+  user           User     @relation(fields: [userId], references: [id])
 }

@@ -1,30 +1,100 @@
-// pages/dashboard/my-polls/index.tsx
-import { useState } from 'react';
-import { FiArchive, FiPlus, FiEdit, FiShare2, FiTrash2, FiImage, FiLink } from 'react-icons/fi';
+import { useState, useEffect } from 'react';
+import { FiArchive, FiPlus, FiShare2, FiTrash2, FiImage, FiLink } from 'react-icons/fi';
 import DashboardLayout from '../../../components/DashboardLayout';
 import Modal from '../../../components/Modal';
 import Button from '../../../components/Button';
+import { prisma } from '../../../lib/prisma';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
-const MyPollsPage = () => {
-  const [polls] = useState([
-    {
-      id: 1,
-      title: "Best Blockchain Protocol",
-      type: "4-option MCQ",
-      status: "Active",
-      votes: 1245,
-      created: "2024-03-15",
-      ends: "2024-03-30"
-    }
-  ]);
+interface Poll {
+  id: number;
+  title: string;
+  type: string;
+  status: string;
+  votes: number;
+  createdAt: string;
+  endsAt: string | null;
+}
 
+const MyPollsPage = ({ initialPolls }: { initialPolls: Poll[] }) => {
+  const [polls, setPolls] = useState<Poll[]>(initialPolls);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [pollType, setPollType] = useState('');
+  const [pollData, setPollData] = useState({
+    title: '',
+    options: ['', '', '', ''],
+    endsAt: '',
+  });
+  const [error, setError] = useState('');
+  const router = useRouter();
 
-  const handleCreatePoll = () => {
-    // Add poll creation logic
-    setShowCreateModal(false);
+  useEffect(() => {
+    setPolls(initialPolls);
+  }, [initialPolls]);
+
+  const handleCreatePoll = async () => {
+    try {
+      // Validation
+      if (!pollData.title) {
+        setError('Poll question is required');
+        return;
+      }
+      if (pollData.options.some(option => !option)) {
+        setError('All options must be filled');
+        return;
+      }
+
+      const response = await fetch('/api/polls', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: pollData.title,
+          type: pollType,
+          options: pollData.options,
+          endsAt: pollData.endsAt || null,
+        }),
+      });
+
+      if (response.ok) {
+        const newPoll = await response.json();
+        setPolls([...polls, newPoll]);
+        setShowCreateModal(false);
+        setCurrentStep(1);
+        setPollType('');
+        setPollData({
+          title: '',
+          options: ['', '', '', ''],
+          endsAt: '',
+        });
+        setError('');
+      } else {
+        setError('Failed to create poll');
+      }
+    } catch (err) {
+      setError('An error occurred while creating the poll');
+    }
+  };
+
+  const handleDeletePoll = async (pollId: number) => {
+    if (!confirm('Are you sure you want to delete this poll?')) return;
+
+    try {
+      const response = await fetch(`/api/polls/${pollId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setPolls(polls.filter(poll => poll.id !== pollId));
+      } else {
+        setError('Failed to delete poll');
+      }
+    } catch (err) {
+      setError('An error occurred while deleting the poll');
+    }
   };
 
   return (
@@ -48,7 +118,11 @@ const MyPollsPage = () => {
         
         {polls.map(poll => (
           <div key={poll.id} className="grid grid-cols-12 gap-4 p-4 border-t border-slate-700/50 hover:bg-slate-800/30 transition-colors">
-            <div className="col-span-5 text-white">{poll.title}</div>
+            <div className="col-span-5 text-white">
+              <Link href={`/polls/${poll.id}`} className="hover:underline">
+                {poll.title}
+              </Link>
+            </div>
             <div className="col-span-2 text-slate-400">{poll.type}</div>
             <div className="col-span-1">
               <span className="px-2 py-1 bg-green-500/10 text-green-400 rounded-full text-xs">
@@ -57,13 +131,13 @@ const MyPollsPage = () => {
             </div>
             <div className="col-span-2 text-slate-400">{poll.votes.toLocaleString()}</div>
             <div className="col-span-2 flex gap-3">
-              <button className="text-indigo-400 hover:text-indigo-300">
-                <FiEdit />
-              </button>
               <button className="text-slate-400 hover:text-slate-300">
                 <FiShare2 />
               </button>
-              <button className="text-red-400 hover:text-red-300">
+              <button 
+                className="text-red-400 hover:text-red-300"
+                onClick={() => handleDeletePoll(poll.id)}
+              >
                 <FiTrash2 />
               </button>
             </div>
@@ -74,7 +148,12 @@ const MyPollsPage = () => {
       {/* Create Poll Modal */}
       <Modal
         isOpen={showCreateModal}
-        onClose={() => setShowCreateModal(false)}
+        onClose={() => {
+          setShowCreateModal(false);
+          setCurrentStep(1);
+          setPollType('');
+          setError('');
+        }}
         title="Create New Poll"
       >
         {currentStep === 1 && (
@@ -103,6 +182,11 @@ const MyPollsPage = () => {
 
         {currentStep === 2 && (
           <div className="space-y-6">
+            {error && (
+              <div className="bg-red-500/10 text-red-400 p-3 rounded-lg">
+                {error}
+              </div>
+            )}
             <div className="space-y-4">
               <label className="block text-sm font-medium text-white">
                 Poll Question
@@ -111,6 +195,20 @@ const MyPollsPage = () => {
                 type="text"
                 className="w-full bg-slate-800/50 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                 placeholder="Enter your question..."
+                value={pollData.title}
+                onChange={(e) => setPollData({ ...pollData, title: e.target.value })}
+              />
+            </div>
+
+            <div className="space-y-4">
+              <label className="block text-sm font-medium text-white">
+                End Date (Optional)
+              </label>
+              <input
+                type="date"
+                className="w-full bg-slate-800/50 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                value={pollData.endsAt}
+                onChange={(e) => setPollData({ ...pollData, endsAt: e.target.value })}
               />
             </div>
 
@@ -122,6 +220,12 @@ const MyPollsPage = () => {
                     type="text"
                     className="w-full bg-slate-800/50 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                     placeholder={`Option ${index + 1}`}
+                    value={pollData.options[index]}
+                    onChange={(e) => {
+                      const newOptions = [...pollData.options];
+                      newOptions[index] = e.target.value;
+                      setPollData({ ...pollData, options: newOptions });
+                    }}
                   />
                 ))}
               </div>
@@ -195,5 +299,29 @@ const ShareModal = () => (
 MyPollsPage.getLayout = function getLayout(page: JSX.Element) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };
+
+export async function getServerSideProps() {
+  const polls = await prisma.poll.findMany({
+    select: {
+      id: true,
+      title: true,
+      type: true,
+      status: true,
+      votes: true,
+      createdAt: true,
+      endsAt: true,
+    },
+  });
+
+  return {
+    props: {
+      initialPolls: polls.map(poll => ({
+        ...poll,
+        createdAt: poll.createdAt.toISOString(),
+        endsAt: poll.endsAt ? poll.endsAt.toISOString() : null,
+      })),
+    },
+  };
+}
 
 export default MyPollsPage;

@@ -1,20 +1,52 @@
 // components/Button.tsx
+import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
 import { FiLoader } from 'react-icons/fi';
 
-export default function Button({ children, variant = 'primary', ...props }) {
-  const baseStyles = 'px-6 py-3 rounded-lg font-medium flex items-center justify-center transition-all';
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  loading?: boolean;
+}
+
+const Button: FC<ButtonProps> = ({
+  children,
+  variant = 'primary',
+  size = 'md',
+  className,
+  loading,
+  disabled,
+  ...props
+}) => {
+  const baseStyles = 'font-medium rounded-lg transition-all flex items-center justify-center';
   
   const variants = {
-    primary: 'bg-indigo-600 hover:bg-indigo-700 text-white',
-    secondary: 'bg-slate-800/50 hover:bg-slate-800/30 text-slate-300 hover:text-white'
+    primary: 'bg-indigo-500 text-white hover:bg-indigo-600',
+    outline: 'border border-indigo-500 text-indigo-400 hover:bg-indigo-500/10',
+    ghost: 'text-indigo-400 hover:bg-indigo-500/10',
+  };
+  
+  const sizes = {
+    sm: 'px-3 py-1.5 text-sm',
+    md: 'px-4 py-2',
+    lg: 'px-6 py-3 text-lg',
   };
 
   return (
     <button
-      className={`${baseStyles} ${variants[variant]}`}
+      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${disabled || loading ? 'opacity-50 cursor-not-allowed' : ''} ${className}`}
+      disabled={disabled || loading}
       {...props}
     >
-      {children}
+      {loading ? (
+        <div className="flex items-center space-x-2">
+          <FiLoader className="animate-spin h-5 w-5" />
+          <span>Loading...</span>
+        </div>
+      ) : (
+        children
+      )}
     </button>
   );
-}
+};
+
+export default Button;

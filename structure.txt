@@ -1,33 +1,61 @@
 voting_app/
+├── lib/
+│   ├── prisma.ts
 ├── components/
-│   ├── DashboardLayout.tsx      // New dashboard layout component
+│   ├── DashboardLayout.tsx
 │   ├── Layout.tsx
 │   ├── Navbar.tsx
+│   ├── Button.tsx
+│   ├── Modal.tsx
 │   ├── Footer.tsx
 │   └── WalletButton.tsx
 ├── pages/
+│   ├── api/
+│   │   ├── auth/
+│   │   │   └── [...nextauth].ts
+│   │   ├── polls/
+│   │   │   ├── [id]/
+│   │   │   │   ├── vote.ts
+│   │   │   │   └── has-voted.ts
 │   ├── dashboard/
-│   │   ├── index.tsx            // Overview page
+│   │   ├── index.tsx
 │   │   ├── profile/
-│   │   │   └── index.tsx        // Profile page
+│   │   │   └── index.tsx
 │   │   ├── my-polls/
-│   │   │   └── index.tsx        // My Polls page
+│   │   │   └── index.tsx
 │   │   └── settings/
-│   │       └── index.tsx        // Settings page
-│   ├── index.tsx                // Homepage
+│   │       └── index.tsx
+│   ├── poll/
+│   │   ├── [id]/
+│   │   │   ├── index.tsx
+│   │   │   └── results.tsx
+│   ├── polls/
+│   │   ├── index.tsx
+│   │   └── play.tsx
+│   ├── index.tsx
 │   ├── create-poll.tsx
+│   ├── login.tsx
 │   └── _app.tsx
 ├── styles/
 │   ├── globals.css
 │   └── theme.ts
 ├── public/
 ├── utils/
+│   ├── solana.ts
+│   └── solanaVoteVerification.ts
+├── hooks/
+│   └── useWebSocket.ts
 ├── program/
+│   └── idl.json
 ├── tests/
+│   └── vote.test.ts
 ├── migrations/
+├── prisma/
+│   └── schema.prisma
 ├── .gitignore
 ├── package.json
 ├── tsconfig.json
 ├── solana.config.json
 ├── Anchor.toml
+├── websocketServer.ts
 └── README.md

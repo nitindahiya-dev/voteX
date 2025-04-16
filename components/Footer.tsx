@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { FiTwitter, FiGithub, FiMail, FiMapPin, FiArrowRight } from 'react-icons/fi';
+import Link from 'next/link';
 
 export const Footer = () => {
   const footerRef = useRef<HTMLElement>(null);
@@ -74,12 +75,12 @@ export const Footer = () => {
               Secure blockchain governance solutions for modern organizations
             </p>
             <div className="flex space-x-4">
-              <button className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-slate-300 hover:text-indigo-400">
+              <Link href={"/"} className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-slate-300 hover:text-indigo-400">
                 <FiTwitter className="text-xl" />
-              </button>
-              <button className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-slate-300 hover:text-indigo-400">
+              </Link> 
+              <Link href={"https://github.com/nitindahiya-dev/voteX"} target='_blank' className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-slate-300 hover:text-indigo-400">
                 <FiGithub className="text-xl" />
-              </button>
+              </Link> 
             </div>
           </div>
 
@@ -88,22 +89,22 @@ export const Footer = () => {
             <h4 className="text-slate-100 font-semibold mb-2">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="flex items-center gap-2 hover:text-indigo-400 transition-colors">
+                <Link href="#" className="flex items-center gap-2 hover:text-indigo-400 transition-colors">
                   <FiArrowRight className="text-sm" />
                   Documentation
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="flex items-center gap-2 hover:text-indigo-400 transition-colors">
+                <Link href="#" className="flex items-center gap-2 hover:text-indigo-400 transition-colors">
                   <FiArrowRight className="text-sm" />
                   API Reference
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="flex items-center gap-2 hover:text-indigo-400 transition-colors">
+                <Link href="#" className="flex items-center gap-2 hover:text-indigo-400 transition-colors">
                   <FiArrowRight className="text-sm" />
                   Compliance
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -113,16 +114,16 @@ export const Footer = () => {
             <h4 className="text-slate-100 font-semibold mb-2">Contact</h4>
             <ul className="space-y-2">
               <li>
-                <a href="mailto:support@govchain.io" className="flex items-center gap-2 hover:text-indigo-400 transition-colors">
+                <Link href="mailto:support@govchain.io" className="flex items-center gap-2 hover:text-indigo-400 transition-colors">
                   <FiMail className="text-sm" />
                   support@govchain.io
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="flex items-center gap-2 hover:text-indigo-400 transition-colors">
+                <Link href="#" className="flex items-center gap-2 hover:text-indigo-400 transition-colors">
                   <FiMapPin className="text-sm" />
                   San Francisco, CA
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
