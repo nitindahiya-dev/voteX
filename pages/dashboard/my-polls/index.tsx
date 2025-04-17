@@ -119,8 +119,8 @@ const MyPollsPage = ({ initialPolls }: { initialPolls: Poll[] }) => {
         {polls.map(poll => (
           <div key={poll.id} className="grid grid-cols-12 gap-4 p-4 border-t border-slate-700/50 hover:bg-slate-800/30 transition-colors">
             <div className="col-span-5 text-white">
-              <Link href={`/polls/${poll.id}`} className="hover:underline">
-                {poll.title}
+            <Link href={`/polls/${poll.id}`} className="hover:underline">
+            {poll.title}
               </Link>
             </div>
             <div className="col-span-2 text-slate-400">{poll.type}</div>

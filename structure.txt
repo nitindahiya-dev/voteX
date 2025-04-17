@@ -1,13 +1,13 @@
 voting_app/
 ├── lib/
-│   ├── prisma.ts
+│   └── prisma.ts
 ├── components/
-│   ├── DashboardLayout.tsx
-│   ├── Layout.tsx
-│   ├── Navbar.tsx
 │   ├── Button.tsx
-│   ├── Modal.tsx
+│   ├── DashboardLayout.tsx
 │   ├── Footer.tsx
+│   ├── Layout.tsx
+│   ├── Modal.tsx
+│   ├── Navbar.tsx
 │   └── WalletButton.tsx
 ├── pages/
 │   ├── api/
@@ -15,24 +15,29 @@ voting_app/
 │   │   │   └── [...nextauth].ts
 │   │   ├── polls/
 │   │   │   ├── [id]/
-│   │   │   │   ├── vote.ts
-│   │   │   │   └── has-voted.ts
+│   │   │   │   ├── has-voted.ts
+│   │   │   │   └── vote.ts
+│   │   │   └── [id].ts
+│   │   ├── delete.ts
+│   │   ├── polls.ts
+│   │   └── user.ts
 │   ├── dashboard/
 │   │   ├── index.tsx
-│   │   ├── profile/
-│   │   │   └── index.tsx
 │   │   ├── my-polls/
+│   │   │   └── index.tsx
+│   │   ├── profile/
 │   │   │   └── index.tsx
 │   │   └── settings/
 │   │       └── index.tsx
-│   ├── poll/
-│   │   ├── [id]/
-│   │   │   ├── index.tsx
-│   │   │   └── results.tsx
 │   ├── polls/
-│   │   ├── index.tsx
+│   │   ├── index.tsx          # Your polls list
+│   │   ├── [id]/
+│   │   │   ├── index.tsx      # PollViewPage
+│   │   │   └── results.tsx    # PollResultsPage
+│   │   ├── [id].tsx
 │   │   └── play.tsx
 │   ├── index.tsx
+│   ├── 404.tsx
 │   ├── create-poll.tsx
 │   ├── login.tsx
 │   └── _app.tsx

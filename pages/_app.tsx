@@ -10,6 +10,7 @@ import {
   TorusWalletAdapter,
   LedgerWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
+import { SessionProvider } from 'next-auth/react'; // Import SessionProvider
 import Layout from 'components/Layout';
 import '../styles/globals.css';
 import '@solana/wallet-adapter-react-ui/styles.css';
@@ -38,7 +39,9 @@ function MyApp({ Component, pageProps, router }: AppProps & { router: any }) {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          {getLayout(<Component {...pageProps} />)}
+          <SessionProvider session={pageProps.session}> {/* Wrap with SessionProvider */}
+            {getLayout(<Component {...pageProps} />)}
+          </SessionProvider>
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>

@@ -40,6 +40,8 @@ model Vote {
   option         String
   createdAt      DateTime @default(now())
   transactionHash String?  @unique // Solana transaction hash
-  poll           Poll     @relation(fields: [pollId], references: [id])
-  user           User     @relation(fields: [userId], references: [id])
+  poll           Poll     @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([pollId, userId]) 
 }

@@ -1,7 +1,8 @@
-import { Server } from 'ws';
+// websocketServer.ts
+import { WebSocketServer } from 'ws';
 import { prisma } from './lib/prisma';
 
-const wss = new Server({ port: 3001 });
+const wss = new WebSocketServer({ port: 3001 });
 
 wss.on('connection', (ws, req) => {
   const pollId = req.url?.split('/').pop();
@@ -26,4 +27,4 @@ wss.on('connection', (ws, req) => {
   });
 });
 
-export default wss;
+console.log('WebSocket server running on ws://localhost:3001');

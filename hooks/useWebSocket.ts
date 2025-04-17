@@ -1,3 +1,5 @@
+// hook/usewebSocket.ts
+
 import { useEffect } from 'react';
 
 export const useWebSocket = (url: string, onMessage: (message: any) => void) => {

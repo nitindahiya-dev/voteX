@@ -16,7 +16,7 @@ const PollResultsPage = ({ poll }: { poll: PollResult }) => {
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-8">
-        <Link href={`/poll/${poll.id}`} className="text-indigo-400 hover:text-indigo-300 flex items-center">
+        <Link href={`/polls/${poll.id}`} className="text-indigo-400 hover:text-indigo-300 flex items-center">
           <FiArrowLeft className="mr-2" /> Back to Poll
         </Link>
       </div>

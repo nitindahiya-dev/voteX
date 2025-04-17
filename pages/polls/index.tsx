@@ -1,3 +1,5 @@
+//pages/polls/index.tsx
+
 import { useState, useCallback } from 'react';
 import { GetServerSideProps } from 'next';
 import { prisma } from '../../lib/prisma';
@@ -94,7 +96,7 @@ const PollViewPage = ({ poll }: { poll: Poll }) => {
 
       toast.success('Vote submitted successfully!');
       setHasVoted(true);
-      router.push(`/poll/${poll.id}/results`);
+      router.push(`/polls/${poll.id}/results`);
     } catch (error) {
       toast.error('Failed to submit vote. Please try again.');
       console.error('Voting error:', error);

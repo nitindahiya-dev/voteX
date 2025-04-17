@@ -23,8 +23,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       where: { id: Number(id) },
     });
 
-    if (!poll || poll.status !== 'Active' || 
-        (poll.endsAt && new Date(poll.endsAt) < new Date())) {
+    if (!poll || poll.status !== 'Active' ||
+      (poll.endsAt && new Date(poll.endsAt) < new Date())) {
       return res.status(400).json({ message: 'Poll is closed or not found' });
     }
 
@@ -74,3 +74,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(500).json({ message: 'Internal server error' });
   }
 }
+
